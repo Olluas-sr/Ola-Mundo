@@ -1,0 +1,16 @@
+header{
+    height: 112px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+nav{
+        display:flex;
+        column-gap: 3rem;
+    }
+
+@media (max-width: 744px) {
+        Header{
+            height: 72px;
+        }
+    }
