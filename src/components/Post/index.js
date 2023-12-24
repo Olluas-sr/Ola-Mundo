@@ -1,9 +1,12 @@
 import "./Post.css"
+import styles from "./Post.module.css"
 import { Route, Routes, useParams } from "react-router-dom"
 import posts from "json/posts.json"
 import PostModel from "components/PostModel";
 import Markdown from "react-markdown";
 import StandartPage from "components/StandartPage";
+import PostsCards from "components/PostsCards";
+
 
 export default function Post () {
     const parametros= useParams()
@@ -13,9 +16,13 @@ export default function Post () {
     })
 
     if(!post){
-        return <h1>Post nao econtrado...</h1>
-            
+        return <h1>Post nao econtrado...</h1>   
     }
+
+    const RecomendedPost = posts
+        .filter((post) => post.id !== Number(parametros.id))
+        .sort((a,b) => a.id - b.id)
+        .slice(0, 4);
 
     const fotocapa = require(`assets/posts/${post.id}/capa.png`)
 
@@ -32,7 +39,18 @@ export default function Post () {
                                     {post.texto}
                                 </Markdown>
                             </div>
-                    
+
+                            <h2 className={styles.tituloOutrosPosts}>
+                                Outros posts que voce pode gostar:
+                            </h2>
+
+                            <ul className={styles.postsRecomendados}>
+                                {RecomendedPost.map((post) => (
+                                    <li key={post.id}>
+                                        <PostsCards post={post}/>
+                                    </li>
+                                ))}
+                            </ul>            
                             </PostModel>
                             }
                 />
